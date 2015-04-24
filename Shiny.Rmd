@@ -1,1 +1,76 @@
+---
+title: "Shiny"
+author: "Heather Rose Kates and Richie Hodel"
+date: "April 17, 2015"
+output: html_document
+---
 
+
+
+========================================================
+
+## Shiny: A web application framework for R
+
+- Several components:
+
+- User-interface script
+- Server script
+
+- The user's experience: to interact with a website
+
+========================================================
+
+## Shiny by RStudio
+
+- Reactivity: When a user changes input,
+              the ui automatically changes
+
+
+
+========================================================
+
+## Sample ui.R code
+
+```{r}
+library(shiny)
+library(ggplot2)  
+
+shinyUI(fluidPage(
+  
+  mainPanel(
+    tabsetPanel(
+      tabPanel('Complete surveys',
+               dataTableOutput("surveys_complete"))#,
+    #  tabPanel('Valid sea cucumber names',
+    #          dataTableOutput("holothuriidae_nomina_valid")),
+    #  tabPanel('sea cucumber specimens',
+    #           dataTableOutput("holothuriidae_specimens"))
+    )
+ )
+))
+```
+
+========================================================
+
+## Sample server.R code
+```{r}
+
+library(shiny)
+
+# Define server logic required to summarize and view the selected
+# dataset
+shinyServer(function(input, output) {
+  
+  # a large table, reative to input$show_vars
+  # Most expression's in the server.R script are wrapped in a call to renderDataTable to indicate that:
+  #
+  #  1) It is "reactive" and therefore should re-execute automatically
+  #     when inputs change
+  #  2) Its output type is a DataTable
+  
+  output$surveys_complete = renderDataTable({
+    surveys_complete
+  })
+  
+})
+```
